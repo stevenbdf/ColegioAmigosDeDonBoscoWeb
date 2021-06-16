@@ -7,13 +7,14 @@ package controladores;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javabeans.LoginBean;
-import javax.servlet.RequestDispatcher;
+import javabeans.UsuarioBean;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import modelos.UsuarioModel;
 
 /**
  *
@@ -38,27 +39,40 @@ public class LoginController extends HttpServlet {
             String usuario = request.getParameter("usuario");
             String contrasena = request.getParameter("contrasena");
 
-            System.out.println("Usuario : " + usuario);
-            System.out.println("Contrasena : " + contrasena);
+            Boolean isFormNull = usuario == null && contrasena == null;
 
-            Boolean formCompleto = !usuario.isEmpty() && !contrasena.isEmpty();
+            if (isFormNull) {
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
+                return;
+            }
 
-            System.out.println("Completo ? " + formCompleto);
+            Boolean isFormValid = !usuario.trim().isEmpty() && !contrasena.trim().isEmpty();
 
-            if (formCompleto) {
-                request.setAttribute("result", "success");
-                request.setAttribute("message", "Credenciales correctas");
+            if (!isFormValid) {
+                request.setAttribute("result", "error");
+                request.setAttribute("message", "Formulario invalido");
+            }
+
+            UsuarioModel model = new UsuarioModel();
+
+            UsuarioBean usuarioBean = model.login(usuario, contrasena);
+
+            if (usuarioBean.getId() > 0) {
+                HttpSession session = request.getSession();
+                session.setAttribute("id", usuarioBean.getId());
+                session.setAttribute("usuario", usuarioBean.getUsuario());
+                session.setAttribute("idRol", usuarioBean.getIdRol());
+                response.sendRedirect(request.getContextPath());
+                return;
             } else {
                 request.setAttribute("result", "error");
                 request.setAttribute("message", "Credenciales incorrectas");
             }
-            
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
 
-            LoginBean bean = (LoginBean) request.getAttribute("login");
-            System.out.println(bean.getUsuario());
-            System.out.println(bean.getContrasena());
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
 
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 

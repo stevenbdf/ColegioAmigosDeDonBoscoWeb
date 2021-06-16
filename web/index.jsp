@@ -1,33 +1,18 @@
+<%-- 
+    Document   : index
+    Created on : Jun 15, 2021, 11:35:06 PM
+    Author     : elaniin
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Home | Colegio Amigos de Don Bosco</title>
         <%@include file="/components/header.jsp" %>
     </head>
-    <jsp:useBean id="login" scope="request" class="javabeans.LoginBean" />
-    <jsp:setProperty name="login" property="*" />
     <body>
-        <div class="container-md">
-            <form  method="POST" class="mb-3" action="login">
-                <label for="usuario" class="form-label">Usuario</label>
-                <input class="form-control" id="usuario" name="usuario" type="text" />
-                <label for="contrasena" class="form-label">Contraseña</label>
-                <input class="form-control" id="contrasena" name="contrasena" type="password"/>
-                <button class="btn btn-primary mt-3" type="submit">Ingresar</button>
-
-            </form>
-            <c:if test="${ not empty result && result == 'success' }">
-                <div class="alert alert-success" role="alert">
-                    <c:out value="${message}" />
-                </div>
-            </c:if>
-            <c:if test="${ not empty result && result == 'error' }">
-                <div class="alert alert-danger" role="alert">
-                    <c:out value="${message}" />
-                </div>
-            </c:if>
-        </div>
+        <h1>Bienvenido ${sessionScope.usuario} a Colegio Amigos de Don Bosco </h1>
     </body>
 </html>

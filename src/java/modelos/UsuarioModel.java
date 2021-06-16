@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.HashMap;
+import javabeans.UsuarioBean;
 import javax.swing.table.DefaultTableModel;
 
 public class UsuarioModel {
@@ -123,8 +125,9 @@ public class UsuarioModel {
         return dtm;
     }
 
-    public Boolean login(String usuario, String contrasena) {
-        Boolean autenticado = false;
+    public UsuarioBean login(String usuario, String contrasena) {
+        UsuarioBean usuarioLogin = new UsuarioBean();
+
         try {
             Conexion conexion = new Conexion();
             Connection conn = conexion.getConexion();
@@ -137,12 +140,16 @@ public class UsuarioModel {
 
             // Creando filas de la tabla
             while (rs.next()) {
-                autenticado = rs.getInt("id_rol") == 1;
+                if (rs.getInt("id_rol") != 1) {
+                    usuarioLogin.setId(rs.getInt("id"));
+                    usuarioLogin.setUsuario(rs.getString("usuario"));
+                    usuarioLogin.setIdRol(rs.getInt("id_rol"));
+                }
             }
             conexion.cerrarConexion();
         } catch (SQLException e) {
             System.out.println("Error al eliminar: " + e.getMessage());
         }
-        return autenticado;
+        return usuarioLogin;
     }
 }
