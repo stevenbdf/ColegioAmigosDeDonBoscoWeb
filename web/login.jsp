@@ -9,7 +9,7 @@
     <body>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-4">
+                <div class="card col-4 px-5 py-4 shadow mt-5">
                     <div class="text-center">
                         <h2>Colegio Amigos de Don Bosco</h2>
                         <img width="300" class="rounded-circle my-3" src="https://revistavive.com/wp-content/uploads/2020/05/DON-BOSCO-2.png" />       
