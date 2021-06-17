@@ -1,37 +1,74 @@
-<%-- 
-    Document   : index
-    Created on : Jun 15, 2021, 11:35:06 PM
-    Author     : elaniin
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home | Colegio Amigos de Don Bosco</title>
+        <title>Inicio | Colegio Amigos de Don Bosco</title>
         <%@include file="/components/header.jsp" %>
+        <c:if test="${categoriaLista == null || autorLista == null}">
+            <c:redirect url="index"/>
+        </c:if>
     </head>
     <body>
         <%@include file="/components/navbar.jsp" %>
         <div class="container-fluid ">
             <div class="row mt-3">
-                <div class="col-2">
-                    <div class="text-center">
-                        <img width="50%" class="rounded-circle my-3" src="https://revistavive.com/wp-content/uploads/2020/05/DON-BOSCO-2.png" />
-                    </div>
-                    <h5>Idiomas</h5>
-                    <div class="card">
-                        <div class="card-body d-flex flex-column">
-                            <a class="stretched-link mb-3">Español</a>
-                            <a class="stretched-link">Ingles</a>
-                        </div>
-                    </div>
-                </div>
+                <%@include file="/components/aside.jsp" %>
                 <div class="col-10">
                     <div class="card">
                         <div class="card-body">
                             <h3>Consulta de ejemplares</h3>
+                            <div class="my-3" style="height:1px;background-color: lightgray;"></div>
+                            <p>Ingrese los datos de busqueda: </p>
+                            <form class="row">
+                                <label class="form-label col-6">
+                                    Titulo
+                                    <input type="text" class="form-control"  name="titulo">
+                                </label>
+                                <label  class="form-label col-6">
+                                    Descripción
+                                    <input type="text" class="form-control" name="descripcion">
+                                </label>
+                                <label class="form-label col-6">
+                                    Editorial
+                                    <input type="text" class="form-control" name="editorial">
+                                </label>
+                                <label class="form-label col-6">
+                                    ISBN
+                                    <input type="text" class="form-control" name="isbn">
+                                </label>
+                                <label class="form-label col-6">
+                                    Categoria
+                                    <select class="form-select" name="categoria">
+                                        <option selected>Selecciona una opcion</option>
+                                        <c:forEach items="${categoriaLista}" var="categoria">
+                                            <option value="${categoria.id}">
+                                                ${categoria.descripcion}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </label>
+                                <label class="form-label col-6">
+                                    Autor
+                                    <select class="form-select" name="autor">
+                                        <option selected>Selecciona una opcion</option>
+                                        <c:forEach items="${autorLista}" var="autor">
+                                            <option value="${autor.id}">
+                                                ${autor.nombres} ${autor.apellidos}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </label>
+                                <div class="col-3 mt-3">
+                                    <button type="submit" class="btn btn-success w-100">Realizar busqueda</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h3>Resultado de la busqueda</h3>
+                            <div class="my-3" style="height:1px;background-color: lightgray;"></div>
                         </div>
                     </div>
                 </div>
