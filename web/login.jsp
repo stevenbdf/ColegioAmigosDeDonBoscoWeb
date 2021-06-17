@@ -9,10 +9,10 @@
     <body>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="card col-4 px-5 py-4 shadow mt-5">
+                <div class="card col-10 col-lg-5 px-5 py-4 shadow mt-5">
                     <div class="text-center">
                         <h2>Colegio Amigos de Don Bosco</h2>
-                        <img width="300" class="rounded-circle my-3" src="https://revistavive.com/wp-content/uploads/2020/05/DON-BOSCO-2.png" />       
+                        <img width="50%" class="rounded-circle my-3" src="https://revistavive.com/wp-content/uploads/2020/05/DON-BOSCO-2.png" />       
                     </div>
                     <h3 class="text-center my-3">Iniciar Sesión</h3>
                     <form  method="POST" class="mb-3">

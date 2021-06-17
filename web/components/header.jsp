@@ -12,3 +12,11 @@
         <c:redirect url="/login" />
     </c:when>
 </c:choose>
+<c:if test="${param.logout == 'true'}">
+    <%
+        request.getSession().removeAttribute("id");
+        request.getSession().removeAttribute("usuario");
+        request.getSession().removeAttribute("idRol");
+    %>
+    <c:redirect url="/login" />
+</c:if>
