@@ -1,29 +1,27 @@
-package controladores;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package controladores;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import javabeans.AutorBean;
-import javabeans.CategoriaBean;
+import javabeans.EjemplarBean;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelos.AutorModel;
-import modelos.CategoriaModel;
+import modelos.EjemplarModel;
 
 /**
  *
  * @author elaniin
  */
-@WebServlet(urlPatterns = {"/index"})
-public class IndexController extends HttpServlet {
+@WebServlet(name = "BuscarController", urlPatterns = {"/BuscarController"})
+public class BuscarController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,17 +36,17 @@ public class IndexController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            CategoriaModel categoriaModel = new CategoriaModel();
-            List<CategoriaBean> categoriaLista = categoriaModel.list();
-            request.setAttribute("categoriaLista", categoriaLista);
+            EjemplarBean ejemplarBean = (EjemplarBean) request.getAttribute("buscarForm");
 
-            AutorModel autorModel = new AutorModel();
-            List<AutorBean> autorLista = autorModel.list();
-            request.setAttribute("autorLista", autorLista);
+            EjemplarModel ejemplarModel = new EjemplarModel();
+            List<EjemplarBean> ejemplarLista = ejemplarModel.list(ejemplarBean);
+            request.setAttribute("ejemplarLista", ejemplarLista);
+
+            Integer vecesBuscado = request.getParameter("buscar") != null ? Integer.parseInt(request.getParameter("buscar")) : 0;
+
+            request.setAttribute("vecesBuscado", vecesBuscado);
 
             request.getRequestDispatcher("/index.jsp").forward(request, response);
-        } catch (Exception e) {
-            System.out.println(e);
         }
     }
 

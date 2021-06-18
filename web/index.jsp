@@ -9,6 +9,12 @@
             <c:redirect url="index"/>
         </c:if>
     </head>
+
+    <jsp:useBean id="buscarForm" scope="request" class="javabeans.EjemplarBean" />
+    <jsp:setProperty name="buscarForm" property="*" />
+    <c:if test="${not empty param.buscar && param.buscar != vecesBuscado}">
+        <jsp:forward page="/BuscarController" />
+    </c:if>
     <body>
         <%@include file="/components/navbar.jsp" %>
         <div class="container-fluid ">
@@ -20,10 +26,12 @@
                             <h3>Consulta de ejemplares</h3>
                             <div class="my-3" style="height:1px;background-color: lightgray;"></div>
                             <p>Ingrese los datos de busqueda: </p>
-                            <form class="row">
+                            ${resolved}
+                            <form class="row" method="POST">
+                                <input type="hidden" name="buscar" value="${vecesBuscado + 1}"></input>
                                 <label class="form-label col-6">
                                     Titulo
-                                    <input type="text" class="form-control"  name="titulo">
+                                    <input type="text" class="form-control"  name="nombre">
                                 </label>
                                 <label  class="form-label col-6">
                                     Descripción
@@ -39,8 +47,8 @@
                                 </label>
                                 <label class="form-label col-6">
                                     Categoria
-                                    <select class="form-select" name="categoria">
-                                        <option selected>Selecciona una opcion</option>
+                                    <select class="form-select" name="idCategoria">
+                                        <option value="0" selected>Selecciona una opcion</option>
                                         <c:forEach items="${categoriaLista}" var="categoria">
                                             <option value="${categoria.id}">
                                                 ${categoria.descripcion}
@@ -50,8 +58,8 @@
                                 </label>
                                 <label class="form-label col-6">
                                     Autor
-                                    <select class="form-select" name="autor">
-                                        <option selected>Selecciona una opcion</option>
+                                    <select class="form-select" name="idAutor">
+                                        <option value="0" selected>Selecciona una opcion</option>
                                         <c:forEach items="${autorLista}" var="autor">
                                             <option value="${autor.id}">
                                                 ${autor.nombres} ${autor.apellidos}
@@ -69,6 +77,31 @@
                         <div class="card-body">
                             <h3>Resultado de la busqueda</h3>
                             <div class="my-3" style="height:1px;background-color: lightgray;"></div>
+
+                            <div class="row">
+                                <c:choose>
+                                    <c:when test="${ejemplarLista.size() > 0}">
+                                        <c:forEach items="${ejemplarLista}" var="ejemplar" varStatus="loop">
+                                            <div class="col-4 my-2 d-flex align-items-stretch">
+                                                <div class="card w-100">
+                                                    <div class="card-body">
+                                                        <h5>${loop.index + 1}. ${ejemplar.nombre}</h5>
+                                                        <p class="m-0">${ejemplar.autor.nombres} ${ejemplar.autor.apellidos} - ${ejemplar.publicacion}</p>
+                                                        <p class="m-0">${ejemplar.editorial} - ${ejemplar.categoria.descripcion}</p>
+                                                        <p class="m-0">${ejemplar.descripcion}</p>
+                                                        <p class="m-0">${ejemplar.isbn}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="col-4">
+                                            Sin resultados en la busqueda
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>      
+                            </div>
                         </div>
                     </div>
                 </div>
