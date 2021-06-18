@@ -9,7 +9,6 @@
             <c:redirect url="index"/>
         </c:if>
     </head>
-
     <jsp:useBean id="buscarForm" scope="request" class="javabeans.EjemplarBean" />
     <jsp:setProperty name="buscarForm" property="*" />
     <c:if test="${not empty param.buscar && param.buscar != vecesBuscado}">
@@ -26,7 +25,6 @@
                             <h3>Consulta de ejemplares</h3>
                             <div class="my-3" style="height:1px;background-color: lightgray;"></div>
                             <p>Ingrese los datos de busqueda: </p>
-                            ${resolved}
                             <form class="row" method="POST">
                                 <input type="hidden" name="buscar" value="${vecesBuscado + 1}"></input>
                                 <label class="form-label col-6">
@@ -77,19 +75,37 @@
                         <div class="card-body">
                             <h3>Resultado de la busqueda</h3>
                             <div class="my-3" style="height:1px;background-color: lightgray;"></div>
-
                             <div class="row">
                                 <c:choose>
                                     <c:when test="${ejemplarLista.size() > 0}">
+                                        <p>
+                                            Presione el boton
+                                            <a href="#" style="text-decoration: none;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+                                                </svg> 
+                                            </a>
+
+                                            dentro de un ejemplar para realizar un prestamo
+                                        </p>
                                         <c:forEach items="${ejemplarLista}" var="ejemplar" varStatus="loop">
                                             <div class="col-4 my-2 d-flex align-items-stretch">
                                                 <div class="card w-100">
-                                                    <div class="card-body">
-                                                        <h5>${loop.index + 1}. ${ejemplar.nombre}</h5>
-                                                        <p class="m-0">${ejemplar.autor.nombres} ${ejemplar.autor.apellidos} - ${ejemplar.publicacion}</p>
-                                                        <p class="m-0">${ejemplar.editorial} - ${ejemplar.categoria.descripcion}</p>
-                                                        <p class="m-0">${ejemplar.descripcion}</p>
-                                                        <p class="m-0">${ejemplar.isbn}</p>
+                                                    <div class="card-body row">
+                                                        <div class="col-11">
+                                                            <h5>${loop.index + 1}. ${ejemplar.nombre}</h5>
+                                                            <p class="m-0">${ejemplar.autor.nombres} ${ejemplar.autor.apellidos} - ${ejemplar.publicacion}</p>
+                                                            <p class="m-0">${ejemplar.editorial} - ${ejemplar.categoria.descripcion}</p>
+                                                            <p class="m-0">${ejemplar.descripcion}</p>
+                                                            <p class="m-0">${ejemplar.isbn}</p>         
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <a href="${contextPath}/prestar.jsp?id=${ejemplar.id}">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                                                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+                                                                </svg> 
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

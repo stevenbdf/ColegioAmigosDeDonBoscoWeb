@@ -26,6 +26,8 @@ public class EjemplarModel {
             + "INNER JOIN categorias ON ejemplares.id_categoria = categorias.id\n"
             + "INNER JOIN autores ON ejemplares.id_autor = autores.id ";
 
+    private final String SQL_FIND = "SELECT * FROM ejemplares WHERE id = ?";
+
     public int insert(String descripcion) {
         int rows = 0;
         try {
@@ -84,6 +86,26 @@ public class EjemplarModel {
         return rows;
     }
 
+    public int find(int id) {
+        int rows = 0;
+        try {
+            Conexion conexion = new Conexion();
+            Connection conn = conexion.getConexion();
+            PreparedStatement stmt = null;
+            stmt = conn.prepareStatement(SQL_FIND);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                rows = 1;
+            }
+            conexion.cerrarConexion();
+        } catch (SQLException e) {
+            System.out.println("Error al consultar: " + e.getMessage());
+        }
+        return rows;
+    }
+
     public List<EjemplarBean> list(EjemplarBean filtro) {
         List<EjemplarBean> listaEjemplares = new ArrayList<>();
 
@@ -127,8 +149,6 @@ public class EjemplarModel {
             PreparedStatement stmt = null;
             stmt = conn.prepareStatement(CONSULTA_SELECT);
             ResultSet rs = stmt.executeQuery();
-
-            System.out.println(CONSULTA_SELECT);
 
             while (rs.next()) {
                 Integer id = rs.getInt("id");
