@@ -9,6 +9,7 @@ public class PrestamoBean {
     private String fechaRegreso;
     private String estado;
     private Integer idEjemplar;
+    private String nombreEjemplar;
     private Integer idUsuario;
 
     public PrestamoBean() {
@@ -17,12 +18,13 @@ public class PrestamoBean {
         this.estado = "PRESTADO";
     }
 
-    public PrestamoBean(Integer id, String fechaPrestamo, String fechaRegreso, String estado, Integer idEjemplar, Integer idUsuario) {
+    public PrestamoBean(Integer id, String fechaPrestamo, String fechaRegreso, String estado, Integer idEjemplar, String nombreEjemplar, Integer idUsuario) {
         this.id = id;
         this.fechaPrestamo = fechaPrestamo;
         this.fechaRegreso = fechaRegreso;
         this.estado = estado;
         this.idEjemplar = idEjemplar;
+        this.nombreEjemplar = nombreEjemplar;
         this.idUsuario = idUsuario;
     }
 
@@ -94,6 +96,20 @@ public class PrestamoBean {
      */
     public void setIdEjemplar(Integer idEjemplar) {
         this.idEjemplar = idEjemplar;
+    }
+
+    /**
+     * @return the nombreEjemplar
+     */
+    public String getNombreEjemplar() {
+        return nombreEjemplar;
+    }
+
+    /**
+     * @param nombreEjemplar the nombreEjemplar to set
+     */
+    public void setNombreEjemplar(String nombreEjemplar) {
+        this.nombreEjemplar = nombreEjemplar;
     }
 
     /**

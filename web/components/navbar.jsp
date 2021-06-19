@@ -7,10 +7,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="${contextPath}/index.jsp">Inicio</a>
+                    <a class="nav-link ${servletPath == '/index.jsp' ? 'active' : ''}" href="${contextPath}/index.jsp">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Prestamos</a>
+                    <a class="nav-link ${servletPath == '/prestamos.jsp' ? 'active' : ''}" href="${contextPath}/prestamos.jsp">Prestamos</a>
                 </li>
             </ul>
             <form class="d-flex align-items-center" method="GET" action="${contextPath}/index.jsp">

@@ -120,27 +120,27 @@ public class EjemplarModel {
             }
 
             if (!filtro.getDescripcion().trim().isEmpty()) {
-                CONSULTA_SELECT += (!contieneFiltro ? "WHERE " : "") + "ejemplares.descripcion LIKE '%" + filtro.getDescripcion().trim() + "%' ";
+                CONSULTA_SELECT += (!contieneFiltro ? "WHERE " : "AND ") + "ejemplares.descripcion LIKE '%" + filtro.getDescripcion().trim() + "%' ";
                 contieneFiltro = true;
             }
 
             if (!filtro.getEditorial().trim().isEmpty()) {
-                CONSULTA_SELECT += (!contieneFiltro ? "WHERE " : "") + "ejemplares.editorial LIKE '%" + filtro.getEditorial().trim() + "%' ";
+                CONSULTA_SELECT += (!contieneFiltro ? "WHERE " : "AND ") + "ejemplares.editorial LIKE '%" + filtro.getEditorial().trim() + "%' ";
                 contieneFiltro = true;
             }
 
             if (!filtro.getIsbn().trim().isEmpty()) {
-                CONSULTA_SELECT += (!contieneFiltro ? "WHERE " : "") + "ejemplares.ISBN LIKE '%" + filtro.getIsbn().trim() + "%' ";
+                CONSULTA_SELECT += (!contieneFiltro ? "WHERE " : "AND ") + "ejemplares.ISBN LIKE '%" + filtro.getIsbn().trim() + "%' ";
                 contieneFiltro = true;
             }
 
             if (filtro.getIdCategoria() > 0) {
-                CONSULTA_SELECT += (!contieneFiltro ? "WHERE " : "") + "ejemplares.id_categoria = " + filtro.getIdCategoria();
+                CONSULTA_SELECT += (!contieneFiltro ? "WHERE " : "AND ") + "ejemplares.id_categoria = " + filtro.getIdCategoria();
                 contieneFiltro = true;
             }
 
             if (filtro.getIdAutor() > 0) {
-                CONSULTA_SELECT += (!contieneFiltro ? "WHERE " : "") + "ejemplares.id_autor = " + filtro.getIdAutor();
+                CONSULTA_SELECT += (!contieneFiltro ? "WHERE " : "AND ") + "ejemplares.id_autor = " + filtro.getIdAutor();
                 contieneFiltro = true;
             }
 

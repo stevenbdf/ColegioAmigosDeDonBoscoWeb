@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javabeans.PrestamoBean;
@@ -25,6 +27,14 @@ public class PrestamoModel {
 
     private final String SQL_SELECT_CONFIGURACION
             = "SELECT * FROM configuracion";
+
+    private final String SQL_SELECT_PRESTAMOS
+            = "SELECT prestamos.id, fecha_prestamo, fecha_regreso, estado, ejemplares.id as idEjemplar, ejemplares.nombre\n"
+            + "FROM prestamos\n"
+            + "INNER JOIN ejemplares ON ejemplares.id = prestamos.ejemplar_id WHERE usuario_id = ?";
+
+    private final String SQL_REGRESAR_PRESTAMO
+            = "UPDATE prestamos SET estado = 'REGRESADO' WHERE id = ?";
 
     public Boolean usuarioConLimite(int idUsuario, int idRol) {
         int rows = 0, limiteAlumnos = 0, limiteProfesores = 0;
@@ -140,5 +150,62 @@ public class PrestamoModel {
         }
 
         return result;
+    }
+
+    public List<PrestamoBean> usuarioPrestamos(int idUsuario) {
+        List<PrestamoBean> listaEjemplares = new ArrayList<>();
+
+        try {
+            Conexion conexion = new Conexion();
+            Connection conn = conexion.getConexion();
+
+            PreparedStatement stmt = null;
+            stmt = conn.prepareStatement(SQL_SELECT_PRESTAMOS);
+            stmt.setInt(1, idUsuario);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Integer id = rs.getInt("id");
+                String fechaPrestamo = rs.getString("fecha_prestamo");
+                String fechaRegreso = rs.getString("fecha_regreso");
+                String estado = rs.getString("estado");
+                Integer idEjemplar = rs.getInt("idEjemplar");
+                String nombreEjemplar = rs.getString("nombre");
+
+                PrestamoBean prestamo = new PrestamoBean(
+                        id,
+                        fechaPrestamo,
+                        fechaRegreso,
+                        estado,
+                        idEjemplar,
+                        nombreEjemplar,
+                        idUsuario
+                );
+
+                listaEjemplares.add(prestamo);
+            }
+
+            conexion.cerrarConexion();
+        } catch (SQLException e) {
+            System.out.println("Error al consultar: " + e.getMessage());
+        }
+
+        return listaEjemplares;
+    }
+
+    public Boolean regresarPrestamo(int idPrestamo) {
+        int rows = 0;
+        try {
+            Conexion conexion = new Conexion();
+            Connection conn = conexion.getConexion();
+            PreparedStatement stmt = null;
+            stmt = conn.prepareStatement(SQL_REGRESAR_PRESTAMO);
+            stmt.setInt(1, idPrestamo);
+            rows = stmt.executeUpdate();
+            conexion.cerrarConexion();
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar: " + e.getMessage());
+        }
+        return rows > 0;
     }
 }

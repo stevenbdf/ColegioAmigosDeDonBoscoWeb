@@ -42,7 +42,6 @@ public class PrestarController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             EjemplarModel ejemplarModel = new EjemplarModel();
             // Validar que exista el ejemplar buscado
-            System.out.println(request.getParameter("id"));
 
             Integer id = Integer.parseInt(request.getParameter("id"));
 
@@ -80,7 +79,7 @@ public class PrestarController extends HttpServlet {
                         String message = entry.getValue();
 
                         if (status) {
-                            response.sendRedirect(request.getContextPath());
+                            response.sendRedirect(request.getContextPath() + "/prestamos.jsp?exito=true");
                             return;
                         } else {
                             request.setAttribute("error", message);
